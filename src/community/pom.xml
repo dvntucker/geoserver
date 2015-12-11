@@ -446,5 +446,11 @@
         <module>wps-jdbc</module>
       </modules>
     </profile>
+    <profile>
+      <id>mr-dem</id>
+      <modules>
+        <module>mr-dem</module>
+      </modules>
+    </profile>
   </profiles>   
 </project>
