@@ -517,7 +517,7 @@
       <dependencies>
         <dependency>
           <groupId>org.geoserver.community</groupId>
-          <artifactId>mr-dem</artifactId>
+          <artifactId>gs-mr-dem</artifactId>
           <version>${project.version}</version>
         </dependency>
       </dependencies>
