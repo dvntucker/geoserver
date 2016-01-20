@@ -1,4 +1,4 @@
-/* (c) 2014 - 2015 Open Source Geospatial Foundation - all rights reserved
+/* (c) 2014 - 2016 Open Source Geospatial Foundation - all rights reserved
  * (c) 2014 OpenPlans
  * This code is licensed under the GPL 2.0 license, available at the root
  * application directory.
@@ -16,6 +16,7 @@ import org.apache.wicket.ajax.markup.html.form.AjaxCheckBox;
 import org.apache.wicket.behavior.Behavior;
 import org.apache.wicket.extensions.markup.html.form.palette.Palette;
 import org.apache.wicket.extensions.markup.html.form.palette.component.Recorder;
+import org.apache.wicket.extensions.markup.html.form.palette.theme.DefaultTheme;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.ChoiceRenderer;
 import org.apache.wicket.markup.html.form.FormComponentPanel;
@@ -50,9 +51,7 @@ public class MimeTypesFormComponent extends FormComponentPanel {
             }
         });
 
-
-
-        add(palette = new Palette<String>("palette", model, choicesModel,
+        this.palette = new Palette<String>("palette", model, choicesModel,
                 new SimpleChoiceRenderer(), 10, false) {
             private static final long serialVersionUID = 1L;
 
@@ -66,8 +65,8 @@ public class MimeTypesFormComponent extends FormComponentPanel {
                 return rec;
             }
 
-            
-             // Override otherwise the header is not i18n'ized            
+
+            // Override otherwise the header is not i18n'ized
             @Override
             public Component newSelectedHeader(final String componentId) {
                 return new Label(componentId, new ResourceModel(getSelectedHeaderPropertyKey()));
@@ -78,7 +77,10 @@ public class MimeTypesFormComponent extends FormComponentPanel {
             public Component newAvailableHeader(final String componentId) {
                 return new Label(componentId, new ResourceModel(getAvaliableHeaderPropertyKey()));
             }
-        });
+        };
+        palette.add(new DefaultTheme());
+
+        add(palette);
         palette.setOutputMarkupPlaceholderTag(true);
         //palette.setEnabled(isMimeTypeCheckingEnabled);
         toggleVisibility(isMimeTypeCheckingEnabled);
