@@ -9,6 +9,8 @@ import static org.junit.Assert.*;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import org.apache.wicket.feedback.FeedbackMessage;
@@ -35,13 +37,14 @@ public class WMSAdminPageTest extends GeoServerWicketTestSupport {
     public void testValues() throws Exception {
         tester.startPage(WMSAdminPage.class);
         tester.assertModelValue("form:keywords", wms.getKeywords());
-        tester.assertModelValue("form:srs", new ArrayList<String>());
+        tester.assertModelValue("form:srs", Collections.singletonList("4326"));
     }
     
     @Test
     public void testFormSubmit() throws Exception {
         tester.startPage(WMSAdminPage.class);
         FormTester ft = tester.newFormTester("form");
+        ft.setValue("srs", "4326");
         ft.submit("submit");
         tester.assertNoErrorMessage();
         tester.assertRenderedPage(GeoServerHomePage.class);
@@ -53,6 +56,7 @@ public class WMSAdminPageTest extends GeoServerWicketTestSupport {
         tester.startPage(WMSAdminPage.class);
         FormTester ft = tester.newFormTester("form");
         ft.setValue("watermark.uRL", f.getAbsolutePath());
+        ft.setValue("srs", "4326");
         ft.submit("submit");
         tester.assertNoErrorMessage();
         tester.assertRenderedPage(GeoServerHomePage.class);
@@ -75,8 +79,10 @@ public class WMSAdminPageTest extends GeoServerWicketTestSupport {
         assertFalse(wms.isBBOXForEachCRS());
         tester.startPage(WMSAdminPage.class);
         FormTester ft = tester.newFormTester("form");
+        ft.setValue("srs", "4326");
         ft.setValue("bBOXForEachCRS", true);
         ft.submit("submit");
+        tester.assertNoErrorMessage();
         assertTrue(wms.isBBOXForEachCRS());
     }
 }
