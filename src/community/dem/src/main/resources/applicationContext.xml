@@ -10,7 +10,7 @@
 
   <bean id="mrDemStorePanel" class="org.geoserver.web.data.resource.DataStorePanelInfo">
     <property name="id" value="mrDem" />
-    <property name="factoryClass" value="org.geotools.mrdem.MultiResolutionDEMFormat" />
+    <property name="factoryClass" value="org.geotools.dem.DEMFormat" />
     <property name="iconBase" value="org.geoserver.web.GeoServerApplication" />
     <property name="icon" value="img/icons/geosilk/page_white_raster.png" />
     <property name="componentClass"
