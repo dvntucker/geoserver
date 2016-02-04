@@ -412,7 +412,6 @@ public class JDBCQueryHelper {
             try (PreparedStatement stmt = query.toStatement(c)) {
                 try (ResultSet rs = stmt.executeQuery()) {
                     if (rs.next()) {
-                        assert (rs.last());
                         Map<String, Object> result = new HashMap<String, Object>();
                         for (int i = 0; i < fields.length; i++) {
                             result.put(fields[i].getFieldName(), fields[i].getValue(rs));
@@ -480,8 +479,7 @@ public class JDBCQueryHelper {
         try {            
             try (PreparedStatement stmt = query.toStatement(c)){
                 try (ResultSet rs = stmt.executeQuery()) {
-                    if(rs.next()) {                
-                        assert(rs.last());                   
+                    if(rs.next()) {
                         InputStream is = field.getValue(rs);
                         return is == null ? null : new ClosingInputStreamWrapper(is, c);
                     } else {
