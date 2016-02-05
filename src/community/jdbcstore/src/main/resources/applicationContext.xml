@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans xmlns="http://www.springframework.org/schema/beans" 
+<beans xmlns="http://www.springframework.org/schema/beans"
   xmlns:jdbc="http://www.springframework.org/schema/jdbc"
   xmlns:tx = "http://www.springframework.org/schema/tx"
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -10,7 +10,7 @@
         ">
 
   <!-- main configuration, loaded via factory bean -->
-  <bean id="jdbcStoreProperties" 
+  <bean id="jdbcStoreProperties"
     class="org.geoserver.jdbcstore.internal.JDBCResourceStorePropertiesFactoryBean">
       <constructor-arg ref="dataDirectoryResourceStore"/>
   </bean>
@@ -19,13 +19,13 @@
   <bean id="jdbcStoreDataSource" class="org.geoserver.jdbcloader.DataSourceFactoryBean">
     <constructor-arg ref="jdbcStoreProperties" />
   </bean>
-  
+
   <!-- cache -->
-  <bean id="resourceCache" class="org.geoserver.jdbcstore.cache.DataDirectoryResourceCache">  
+  <bean id="resourceCache" class="org.geoserver.jdbcstore.cache.DataDirectoryResourceCache">
   </bean>
-  
+
   <!-- resource store -->
-  <bean id="jdbcResourceStore" class="org.geoserver.jdbcstore.JDBCResourceStoreFactoryBean">  
+  <bean id="jdbcResourceStore" class="org.geoserver.jdbcstore.JDBCResourceStoreFactoryBean">
     <constructor-arg ref="dataDirectoryResourceStore" />
     <constructor-arg ref="jdbcStoreDataSource" />
     <constructor-arg ref="jdbcStoreProperties" />
@@ -34,8 +34,12 @@
     <property name="resourceNotificationDispatcher" ref="resourceNotificationDispatcher"/>
   </bean>
 
-   <bean id="resourceStore" class="org.geoserver.platform.resource.ResourceStoreProxy">
-      <property name="delegate" ref="jdbcResourceStore"/>
-   </bean>
+  <bean id="resourceStore" class="org.geoserver.platform.resource.ResourceStoreProxy">
+    <property name="delegate" ref="jdbcResourceStore"/>
+  </bean>
+
+  <bean id="JDBCStoreStatusProvider" class="org.geoserver.jdbcstore.web.JDBCStoreStatusProvider">
+      <constructor-arg ref="jdbcStoreProperties" />
+  </bean>
 
 </beans>
