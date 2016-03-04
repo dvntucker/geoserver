@@ -45,4 +45,13 @@ public class ResourceConfigurationPanel extends Panel {
     public void resourceUpdated(AjaxRequestTarget target) {
         // nothing to do;
     }
+
+	/**
+	 * Called when the "Submit" button is hit on the main page
+	 *
+	 * @param isNew whether the resource is new or existing
+	 */
+	public void onSave(boolean isNew) {
+		//nothing to do
+	}
 }

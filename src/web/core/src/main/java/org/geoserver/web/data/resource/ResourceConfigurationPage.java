@@ -199,6 +199,10 @@ public class ResourceConfigurationPage extends PublishedConfigurationPage<LayerI
     protected void doSaveInternal() throws IOException {
         Catalog catalog = getCatalog();
         ResourceInfo resourceInfo = getResourceInfo();
+        visitChildren(ResourceConfigurationPanel.class, (component, iVisit) -> {
+           ResourceConfigurationPanel rcp = (ResourceConfigurationPanel) component;
+            rcp.onSave(isNew);
+        });
         if (isNew) {
             // updating grid if is a coverage
             if (resourceInfo instanceof CoverageInfo) {
