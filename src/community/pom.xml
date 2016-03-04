@@ -397,9 +397,9 @@
       </modules>
     </profile>
     <profile>
-      <id>mr-dem</id>
+      <id>dem</id>
       <modules>
-        <module>mr-dem</module>
+        <module>dem</module>
       </modules>
     </profile>
   </profiles>
