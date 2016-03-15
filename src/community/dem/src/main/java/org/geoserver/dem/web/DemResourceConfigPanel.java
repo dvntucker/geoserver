@@ -19,6 +19,7 @@ import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.repeater.DefaultItemReuseStrategy;
 import org.apache.wicket.model.IModel;
 import org.geoserver.catalog.CoverageInfo;
+import org.geoserver.platform.ExtensionPriority;
 import org.geoserver.web.data.resource.ResourceConfigurationPanel;
 import org.geoserver.web.wicket.GeoServerDataProvider;
 import org.geoserver.web.wicket.ReorderableTablePanel;
@@ -27,7 +28,8 @@ import org.geoserver.web.wicket.ReorderableTablePanel;
 /**
  * Resource configuration page for DEMStore
  */
-public class DemResourceConfigPanel extends ResourceConfigurationPanel {
+public class DemResourceConfigPanel extends ResourceConfigurationPanel implements
+        ExtensionPriority {
 
     public static final GeoServerDataProvider.Property<String> ATTR_PROP  =
         new GeoServerDataProvider.PropertyPlaceholder<>("attribute");
@@ -78,5 +80,10 @@ public class DemResourceConfigPanel extends ResourceConfigurationPanel {
 
     public String getSortOrderString() {
         return StringUtils.join(this.sortOrderList, ", ");
+    }
+
+    @Override
+    public int getPriority() {
+        return ExtensionPriority.LOWEST + ExtensionPriority.LOWEST;
     }
 }
