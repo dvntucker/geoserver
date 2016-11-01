@@ -110,7 +110,7 @@ public class StyleAdminPanel extends StyleEditTabPanel {
                 nameTextField.setEnabled(false);
                 uploadLink.setEnabled(false);
             }
-            if (StylePage.isDefaultStyle(getStylePage().getStyleInfo())) {
+            if (Styles.isDefaultStyle(getStylePage().getStyleInfo())) {
                 nameTextField.setEnabled(false);
             }
             // format only settable upon creation
@@ -131,7 +131,7 @@ public class StyleAdminPanel extends StyleEditTabPanel {
         nameTextField.setRequired(true);
 
         //when editing a default style, disallow changing the name
-        if (StylePage.isDefaultStyle(style)) {
+        if (Styles.isDefaultStyle(style)) {
             nameTextField.add(new IValidator<String>() {
                 String originalName = style.getName();
                 @Override public void validate(IValidatable<String> validatable) {

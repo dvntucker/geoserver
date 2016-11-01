@@ -15,6 +15,7 @@ import org.apache.wicket.model.Model;
 import org.apache.wicket.model.StringResourceModel;
 import org.geoserver.catalog.CatalogInfo;
 import org.geoserver.catalog.StyleInfo;
+import org.geoserver.catalog.Styles;
 import org.geoserver.web.ComponentAuthorizer;
 import org.geoserver.web.GeoServerSecuredPage;
 import org.geoserver.web.data.SelectionRemovalLink;
@@ -79,7 +80,7 @@ public class StylePage extends GeoServerSecuredPage {
         header.add(removal = new SelectionRemovalLink("removeSelected", table, dialog) {
             @Override
             protected StringResourceModel canRemove(CatalogInfo object) {
-                if (isDefaultStyle(object)) {
+                if (Styles.isDefaultStyle(object)) {
                     return new StringResourceModel("cantRemoveDefaultStyle", StylePage.this, null );
                 }
                 return null;
@@ -119,14 +120,4 @@ public class StylePage extends GeoServerSecuredPage {
         return ComponentAuthorizer.WORKSPACE_ADMIN;
     }
 
-    protected static boolean isDefaultStyle(CatalogInfo catalogInfo) {
-        if (catalogInfo instanceof StyleInfo) {
-            StyleInfo s = (StyleInfo) catalogInfo;
-            return StyleInfo.DEFAULT_POINT.equals(s.getName()) || StyleInfo.DEFAULT_LINE.equals(s.getName())
-                || StyleInfo.DEFAULT_POLYGON.equals(s.getName())
-                || StyleInfo.DEFAULT_RASTER.equals(s.getName()) || StyleInfo.DEFAULT_GENERIC.equals(s.getName());
-        } else {
-            return false;
-        }
-    }
 }

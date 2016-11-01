@@ -376,6 +376,8 @@ public class StyleResource extends AbstractCatalogResource {
 
     @Override
     public boolean allowDelete() {
+        String style = getAttribute("style");
+        String workspace = getAttribute("workspace");
         return getAttribute( "style" ) != null;
     }
     

@@ -183,4 +183,26 @@ public class Styles {
     public static List<StyleHandler> handlers() {
         return GeoServerExtensions.extensions(StyleHandler.class);
     }
+
+    /**
+     * @param catalogInfo a styleinfo object (false for other cataloginfo objects)
+     * @return whether the given StyleInfo is the same as one of the default built-in styles based
+     *         on name
+     */
+    public static boolean isDefaultStyle(CatalogInfo catalogInfo) {
+        if (catalogInfo instanceof StyleInfo) {
+            StyleInfo s = (StyleInfo) catalogInfo;
+            return isDefaultStyleName(s.getName());
+        } else {
+            return false;
+        }
+    }
+
+    public static boolean isDefaultStyleName(String name) {
+        return StyleInfo.DEFAULT_POINT.equals(name)
+            || StyleInfo.DEFAULT_LINE.equals(name)
+            || StyleInfo.DEFAULT_POLYGON.equals(name)
+            || StyleInfo.DEFAULT_RASTER.equals(name)
+            || StyleInfo.DEFAULT_GENERIC.equals(name);
+    }
 }
