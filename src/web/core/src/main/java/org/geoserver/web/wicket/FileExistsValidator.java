@@ -46,64 +46,64 @@ public class FileExistsValidator implements IValidator<String> {
      */
     public FileExistsValidator(boolean allowRemoteUrl) {
         if(allowRemoteUrl) {
-            this.delegate = new UrlValidator();
+            this.delegate = new UrlValidator(UrlValidator.ALLOW_ALL_SCHEMES);
         } 
     }
     
     @Override
     public void validate(IValidatable<String> validatable) {
-        String uriSpec = validatable.getValue();
-
-        // Make sure we are dealing with a local path
-        try {
-            URI uri = new URI(uriSpec);
-            if(uri.getScheme() != null && !"file".equals(uri.getScheme())) {
-                if(delegate != null) {
-                    delegate.validate(validatable);
-                    InputStream is = null;
-                    try {
-                        URLConnection connection = uri.toURL().openConnection();
-                        connection.setConnectTimeout(10000);
-                        is = connection.getInputStream();
-                    } catch(Exception e) {
-                        IValidationError err = new ValidationError("FileExistsValidator.unreachable")
-                                .addKey("FileExistsValidator.unreachable")
-                                .setVariable("file", uriSpec);
-                        validatable.error(err);
-                    } finally {
-                        IOUtils.closeQuietly(is);
-                    }
-                }
-                return;
-            } else {
-                // ok, strip away the scheme and just get to the path
-                String path = uri.getPath();
-                if(path != null && new File(path).exists()) {
-                    return;
-                }
-            }
-        } catch(URISyntaxException e) {
-            // may be a windows path, move on
-        }
-
-        File relFile = null;
-
-        GeoServerResourceLoader loader = GeoServerExtensions.bean(GeoServerResourceLoader.class);
-        if (baseDirectory != null ){
-            // local to provided baseDirectory
-            relFile = Files.url(baseDirectory, uriSpec);
-        }
-        else if( loader != null ){
-            // local to data directory?
-            relFile = loader.url(uriSpec);
-        }
-
-        if (relFile == null || !relFile.exists()) {
-            IValidationError err = new ValidationError("FileExistsValidator.fileNotFoundError")
-                    .addKey("FileExistsValidator.fileNotFoundError")
-                    .setVariable("file", uriSpec);
-            validatable.error(err);
-        }
+//        String uriSpec = validatable.getValue();
+//
+//        // Make sure we are dealing with a local path
+//        try {
+//            URI uri = new URI(uriSpec);
+//            if(uri.getScheme() != null && !"file".equals(uri.getScheme())) {
+//                if(delegate != null) {
+//                    delegate.validate(validatable);
+//                    InputStream is = null;
+//                    try {
+//                        URLConnection connection = uri.toURL().openConnection();
+//                        connection.setConnectTimeout(10000);
+//                        is = connection.getInputStream();
+//                    } catch(Exception e) {
+//                        IValidationError err = new ValidationError("FileExistsValidator.unreachable")
+//                                .addKey("FileExistsValidator.unreachable")
+//                                .setVariable("file", uriSpec);
+//                        validatable.error(err);
+//                    } finally {
+//                        IOUtils.closeQuietly(is);
+//                    }
+//                }
+//                return;
+//            } else {
+//                // ok, strip away the scheme and just get to the path
+//                String path = uri.getPath();
+//                if(path != null && new File(path).exists()) {
+//                    return;
+//                }
+//            }
+//        } catch(URISyntaxException e) {
+//            // may be a windows path, move on
+//        }
+//
+//        File relFile = null;
+//
+//        GeoServerResourceLoader loader = GeoServerExtensions.bean(GeoServerResourceLoader.class);
+//        if (baseDirectory != null ){
+//            // local to provided baseDirectory
+//            relFile = Files.url(baseDirectory, uriSpec);
+//        }
+//        else if( loader != null ){
+//            // local to data directory?
+//            relFile = loader.url(uriSpec);
+//        }
+//
+//        if (relFile == null || !relFile.exists()) {
+//            IValidationError err = new ValidationError("FileExistsValidator.fileNotFoundError")
+//                    .addKey("FileExistsValidator.fileNotFoundError")
+//                    .setVariable("file", uriSpec);
+//            validatable.error(err);
+//        }
     }
 
 }
