@@ -944,7 +944,6 @@ public class GeoServerSystemTestSupport extends GeoServerBaseTestSupport<SystemT
      */
     protected InputStream get( String path ) throws Exception {
         MockHttpServletResponse response = getAsServletResponse(path);
-        System.out.println(response.getContentAsString());
         return new ByteArrayInputStream( response.getContentAsString().getBytes() );
     }
     
