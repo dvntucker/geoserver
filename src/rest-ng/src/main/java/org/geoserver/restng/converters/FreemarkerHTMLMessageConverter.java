@@ -9,6 +9,7 @@ import org.geoserver.ows.util.ClassProperties;
 import org.geoserver.ows.util.OwsUtils;
 import org.geoserver.rest.PageInfo;
 import org.geoserver.rest.format.ReflectiveHTMLFormat;
+import org.geoserver.restng.catalog.wrapper.DefaultFreemarkerContextWrapper;
 import org.geoserver.restng.catalog.wrapper.FreemarkerContextWrapper;
 import org.geotools.util.logging.Logging;
 import org.springframework.context.ApplicationContext;
@@ -53,7 +54,8 @@ public class FreemarkerHTMLMessageConverter extends BaseMessageConverter {
 
     @Override
     public boolean canWrite(Class clazz, MediaType mediaType) {
-        return MediaType.TEXT_HTML.equals(mediaType);
+        return MediaType.TEXT_HTML.equals(mediaType)
+            && DefaultFreemarkerContextWrapper.class.isAssignableFrom(clazz);
     }
 
     @Override
