@@ -37,8 +37,8 @@ public class MVCConfiguration extends WebMvcConfigurationSupport {
 
         //Ordered according to priority (highest first)
         converters.add(new FreemarkerHTMLMessageConverter(applicationContext, "UTF-8"));
-        converters.add(new JSONMessageConverter(applicationContext));
         converters.add(new XMLMessageConverter(applicationContext));
+        converters.add(new JSONMessageConverter(applicationContext));
         converters.add(new XStreamCatalogListConverter.XMLXStreamListConverter(applicationContext));
         converters.add(new XStreamCatalogListConverter.JSONXStreamListConverter(applicationContext));
 
@@ -49,6 +49,9 @@ public class MVCConfiguration extends WebMvcConfigurationSupport {
                 converters.add(new StyleConverter(sh.mimeType(ver), ver, sh, entityResolver));
             }
         }
+
+        //use the default ones as lowest priority
+        super.addDefaultHttpMessageConverters(converters);
     }
 
     @Override
@@ -59,5 +62,9 @@ public class MVCConfiguration extends WebMvcConfigurationSupport {
     @Override
     public void configureContentNegotiation(ContentNegotiationConfigurer configurer) {
         configurer.mediaType("sld", MediaType.valueOf(SLDHandler.MIMETYPE_11));
+//        configurer.favorPathExtension(true);
+        //todo properties files are only supported for test cases. should try to find a way to
+        //support them without polluting prod code with handling
+//        configurer.mediaType("properties", MediaType.valueOf("application/prs.gs.psl"));
     }
 }
