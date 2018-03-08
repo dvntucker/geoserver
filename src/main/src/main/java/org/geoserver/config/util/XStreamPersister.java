@@ -1454,7 +1454,7 @@ public class XStreamPersister {
         }
     }
     class NumberRangeConverter extends AbstractReflectionConverter {
-     
+
         @Override
         public boolean canConvert(Class clazz) {
             return NumberRange.class.isAssignableFrom( clazz );
@@ -1602,7 +1602,7 @@ public class XStreamPersister {
     /**
      * Converter for {@link DataStoreInfo}, {@link CoverageStoreInfo}, and {@link WMSStoreInfo}
      */
-    class StoreInfoConverter extends AbstractCatalogInfoConverter {
+    public class StoreInfoConverter extends AbstractCatalogInfoConverter {
 
         public StoreInfoConverter() {
             super(StoreInfo.class);
@@ -1615,17 +1615,17 @@ public class XStreamPersister {
             if (secMgr != null && secMgr.isInitialized()) {
                 //set the hint for the map converter as to which fields to encode in the connection
                 // parameter of this store
-                context.put(BreifMapConverter.ENCRYPTED_FIELDS_KEY, 
+                context.put(BreifMapConverter.ENCRYPTED_FIELDS_KEY,
                     secMgr.getConfigPasswordEncryptionHelper().getEncryptedFields((StoreInfo)source));
             }
 
             super.doMarshal(source, writer, context);
         }
-        
+
         @Override
         protected void postDoMarshal(Object result,
                 HierarchicalStreamWriter writer, MarshallingContext context) {
-            
+
             StoreInfo store = (StoreInfo) result;
             if ( store instanceof DataStoreInfo ) {
                 callback.postEncodeDataStore( (DataStoreInfo) store, writer, context );
@@ -1644,7 +1644,7 @@ public class XStreamPersister {
         public Object doUnmarshal(Object result,
                 HierarchicalStreamReader reader, UnmarshallingContext context) {
             StoreInfo store = (StoreInfo) super.doUnmarshal(result, reader, context);
-            
+
             // 2.1.3+ backwards compatibility check
             if (store instanceof WMSStoreInfo) {
                 WMSStoreInfo wmsStore = (WMSStoreInfo) store;
@@ -1704,7 +1704,7 @@ public class XStreamPersister {
                 }
             }
 
-            //process any parameters that require decryption 
+            //process any parameters that require decryption
             GeoServerSecurityManager secMgr = encryptPasswordFields ? getSecurityManager() : null;
             if (secMgr != null) {
                 secMgr.getConfigPasswordEncryptionHelper().decode(store);
